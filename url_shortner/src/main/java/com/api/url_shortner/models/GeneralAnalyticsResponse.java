@@ -15,13 +15,14 @@ public class GeneralAnalyticsResponse {
     private String oldestUrlCreatedDateTime;
     private String lastAccessedUrl;
     private String lastAccessedUrlDateTime;
-
+    private String oldestAccessedUrl;
+    private String oldestAccessedUrlDateTime;
     
-
     public GeneralAnalyticsResponse(int numberOfUrlMaps, String mostRequestedUrl, int mostRequestedNumberOfRequests,
             String mostAccessedUrl, int mostAccessedNumberOfRequests, String lastUrlCreated,
-            String lastUrlCreatedDateTime, String oldestUrlCreated, String oldestUrlCreatedDateTime, String lastAccessedUrl,
-            String lastAccessedUrlDateTime) {
+            String lastUrlCreatedDateTime, String oldestUrlCreated, String oldestUrlCreatedDateTime,
+            String lastAccessedUrl, String lastAccessedUrlDateTime, String oldestAccessedUrl,
+            String oldestAccessedUrlDateTime) {
         this.numberOfUrlMaps = numberOfUrlMaps;
         this.mostRequestedUrl = mostRequestedUrl;
         this.mostRequestedNumberOfRequests = mostRequestedNumberOfRequests;
@@ -33,7 +34,10 @@ public class GeneralAnalyticsResponse {
         this.oldestUrlCreatedDateTime = oldestUrlCreatedDateTime;
         this.lastAccessedUrl = lastAccessedUrl;
         this.lastAccessedUrlDateTime = lastAccessedUrlDateTime;
+        this.oldestAccessedUrl = oldestAccessedUrl;
+        this.oldestAccessedUrlDateTime = oldestAccessedUrlDateTime;
     }
 
-    
+
+
 }
