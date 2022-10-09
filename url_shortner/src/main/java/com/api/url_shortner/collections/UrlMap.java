@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "url")
+@Document(collection = "urlMap")
 public class UrlMap {
     @Id
     private String id;
