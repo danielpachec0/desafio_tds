@@ -34,7 +34,6 @@ public class UrlMapService {
         if ((url.length() >= 8 && !url.substring(0, 8).equals("https://")) &&
             (url.length() >= 7 && !url.substring(0, 7).equals("http://"))) 
             {
-            System.out.println("inside if");
             url = "http://" + url;
         }
         String regexString = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
