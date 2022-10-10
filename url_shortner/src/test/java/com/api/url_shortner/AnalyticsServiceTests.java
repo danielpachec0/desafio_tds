@@ -3,6 +3,7 @@ package com.api.url_shortner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 
 import java.time.LocalDateTime;
@@ -37,25 +38,26 @@ public class AnalyticsServiceTests {
     }
 
     @Test
-    public void test_getGeneralAnalytics_from_a_url_present_in_the_database() throws Exception{
+    public void test_getGeneralAnalytics() throws Exception{
         UrlMap mockMostAccessed = new UrlMap("teste1", "teste1", LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(1), 1, 1);
         UrlMap mockMostRequested = new UrlMap("teste2", "teste2", LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(2), 2, 2);
         UrlMap mockOldestCreated = new UrlMap("teste3", "teste3", LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(3), 3, 3);
         UrlMap mockLastUrlCreated = new UrlMap("teste4", "teste4", LocalDateTime.now().plusHours(4), LocalDateTime.now().plusHours(4), 4, 4);
         UrlMap mockLastAccessedUrl = new UrlMap("teste5", "teste5", LocalDateTime.now().plusHours(5), LocalDateTime.now().plusHours(5), 5, 5);
         UrlMap mockOldestAccessedUrl = new UrlMap("teste6", "teste6", LocalDateTime.now().plusHours(6), LocalDateTime.now().plusHours(6), 6, 6);
-        
+        long mockCount = 10;
         when(urlMapRepository.findTopByOrderByNumberOfAccessesDesc()).thenReturn(mockMostAccessed);
         when(urlMapRepository.findTopByOrderByNumberOfCreationsRequestsDesc()).thenReturn(mockMostRequested);
         when(urlMapRepository.findTopByOrderByCreationDateAsc()).thenReturn(mockOldestCreated);
         when(urlMapRepository.findTopByOrderByCreationDateDesc()).thenReturn(mockLastUrlCreated);
         when(urlMapRepository.findTopByOrderByLastAccessDateDesc()).thenReturn(mockLastAccessedUrl);
         when(urlMapRepository.findTopByOrderByLastAccessDateAsc()).thenReturn(mockOldestAccessedUrl);
+        when(urlMapRepository.count()).thenReturn(mockCount);
         
         GeneralAnalyticsResponse result = analyticsService.getGeneralAnalytics();
         
         assertNotNull(result);
-        assertEquals(10, result.getNumberOfUrlMaps());
+        assertEquals(mockCount, result.getNumberOfUrlMaps());
         assertEquals(mockMostRequested.getUrl(), result.getMostRequestedUrl());
         assertEquals(mockMostRequested.getNumberOfCreationsRequests(), result.getMostRequestedNumberOfRequests());
         assertEquals(mockMostAccessed.getUrl(), result.getMostAccessedUrl());
