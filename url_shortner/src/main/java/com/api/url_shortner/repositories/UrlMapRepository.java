@@ -12,6 +12,7 @@ public interface UrlMapRepository extends MongoRepository<UrlMap, String>{
     boolean existsByUrl(String url);
     boolean existsByShortUrl(String shortUrl);
     
+    public long count();
     public UrlMap findTopByOrderByNumberOfAccessesDesc();
     public UrlMap findTopByOrderByNumberOfCreationsRequestsDesc();
     public UrlMap findTopByOrderByCreationDateDesc();

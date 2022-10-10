@@ -27,9 +27,8 @@ public class AnalyticsService {
         UrlMap lastUrlCreated = urlMapRepository.findTopByOrderByCreationDateDesc();
         UrlMap lastAccessedUrl = urlMapRepository.findTopByOrderByLastAccessDateDesc();
         UrlMap oldestAccessedUrl = urlMapRepository.findTopByOrderByLastAccessDateAsc();
-
-        
-        response = new GeneralAnalyticsResponse(10, 
+        long numberOfUrlMaps = urlMapRepository.count();
+        response = new GeneralAnalyticsResponse(numberOfUrlMaps, 
                 mostRequested.getUrl(),
                 mostRequested.getNumberOfCreationsRequests(),
                 mostAccessed.getUrl(),
