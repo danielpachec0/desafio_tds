@@ -193,9 +193,18 @@ public class UrlMapServiceTests {
     void test_createNewUrl() throws Exception {
         String test = System.getProperty("user.dir");
         System.out.println(test);
+
+        // Using the absolute path because i was not
+        // successful in use just the relatives ones
+        // as when the test executes the service function
+        // to generate the new shortUrl the procces execution path
+        // will be difertent than the one running the code normaly.
+
         //File configFile = new File("./src/main/resources/counter.properties");
         File configFile = new File("/home/daniel/Projects/desafio_tds/url_shortner/src/main/resources/counter.properties");
-		FileReader reader = new FileReader(configFile);
+		
+        
+        FileReader reader = new FileReader(configFile);
 		Properties props = new Properties();
 		props.load(reader);
         String originalCounteString = props.getProperty("counter");
