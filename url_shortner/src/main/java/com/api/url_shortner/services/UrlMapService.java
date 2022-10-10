@@ -1,7 +1,10 @@
 package com.api.url_shortner.services;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalDateTime;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Properties;
 import java.util.regex.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +24,39 @@ public class UrlMapService {
 
 
     //to update
-    private String generateShortUrl(String url) {
-        String shortUrl = "";
-        for (int i = 0; i < 7; i++) {
-            shortUrl = shortUrl + ThreadLocalRandom.current().nextInt(1, 7);
+    private String generateShortUrl() throws Exception {
+        File configFile = new File("./src/main/resources/config.properties");
+		
+        FileReader reader = new FileReader(configFile);
+ 
+		Properties props = new Properties();
+		props.load(reader);
+
+		System.out.println(props);
+		reader.close();
+
+
+        char[] charArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        String newShortUrl = "";
+        String counterString = props.getProperty("counter");
+        int counter = Integer.parseInt(counterString);
+
+        int aux = counter;
+        while (aux > 0){
+            newShortUrl = newShortUrl + (charArray[aux % 62]);
+            aux = aux / 62;
         }
-        return shortUrl;
+
+        counter++;
+        props.setProperty("counter", Integer.toString(counter));
+
+        FileWriter writer = new FileWriter(configFile);
+        props.store(writer, "host settings");
+        writer.close();
+
+        return newShortUrl;
     }
 
-    //tested
     public boolean validateUrl(String url) {   
         if ((url.length() >= 8 && !url.substring(0, 8).equals("https://")) &&
             (url.length() >= 7 && !url.substring(0, 7).equals("http://"))) 
@@ -44,33 +71,28 @@ public class UrlMapService {
 
     }
 
-    public String createNewUrl(String url) {
-        String shortUrl = generateShortUrl(url);
+    public String createNewUrl(String url) throws Exception{
+        String shortUrl = generateShortUrl();
         UrlMap urlObject = new UrlMap(url, shortUrl, LocalDateTime.now(), null, 0, 1);
         return urlRepository.save(urlObject).getShortUrl();
     }
 
-    //tested
     public boolean checkFromUrl(String url) {
         return urlRepository.existsByUrl(url);
     }
 
-    //tested
     public boolean checkFromShortUrl(String shortUrl) {
         return urlRepository.existsByShortUrl(shortUrl);
     }
 
-    //tested
     public UrlMap getFromShortUrl(String shortUrl) {
         return urlRepository.findByShortUrl(shortUrl).orElse(null);
     }
 
-    //tested
     public UrlMap getFromUrl(String url) {
         return urlRepository.findByUrl(url).orElse(null);
     }
 
-    //tested
     public String saveUrl(UrlMap url) {
         return urlRepository.save(url).getId();
     }

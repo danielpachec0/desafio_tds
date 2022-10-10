@@ -3,12 +3,14 @@ package com.api.url_shortner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.Optional;
+import java.util.Properties;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -186,18 +188,30 @@ public class UrlMapServiceTests {
         closeable.close();
     }
 
+    //testing createNewUrl function and asserting that the counter is increasing when generating a new shortUrl
     @Test
     void test_createNewUrl() throws Exception {
+        File configFile = new File("/home/daniel/Projects/desafio_tds/url_shortner/src/main/resources/config.properties");
+		FileReader reader = new FileReader(configFile);
+		Properties props = new Properties();
+		props.load(reader);
+        String originalCounteString = props.getProperty("counter");
+        int originalCounter = Integer.parseInt(originalCounteString);
+        reader.close();
+
         UrlMap urlObject = new UrlMap("originalUrl", "inputShort", null, null, 0, 0);
         when(urlRepository.save(any())).thenReturn(urlObject);
         String result = urlService.createNewUrl(anyString());
+        
+        reader = new FileReader(configFile);
+        props.load(reader);
+        String newCounterString = props.getProperty("counter");
+        int newCounter = Integer.parseInt(newCounterString);
+        reader.close();
+
         assertNotNull(result);
+        assertEquals(newCounter, originalCounter+1);
         assertEquals(urlObject.getShortUrl(), result);
         closeable.close();
-    }
-
-    @Test
-    void testGenerateShortUrl() throws Exception {
-        fail("not implemented");
     }
 }

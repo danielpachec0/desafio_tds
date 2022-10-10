@@ -54,7 +54,11 @@ public class UrlMapController {
         }
         UrlMap urlObject = urlService.getFromUrl(url);
         if(urlObject == null){
-            shortUrl = urlService.createNewUrl(url);
+            try{
+                shortUrl = urlService.createNewUrl(url);
+            }catch(Exception e){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal error when creating short url, try again later.");
+            }
         }else{
             shortUrl = urlObject.getShortUrl();
             urlObject.setNumberOfCreationsRequests((urlObject.getNumberOfCreationsRequests()+1));
