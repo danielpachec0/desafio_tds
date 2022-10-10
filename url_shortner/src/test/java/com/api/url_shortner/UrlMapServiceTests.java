@@ -191,7 +191,10 @@ public class UrlMapServiceTests {
     //testing createNewUrl function and asserting that the counter is increasing when generating a new shortUrl
     @Test
     void test_createNewUrl() throws Exception {
-        File configFile = new File("/home/daniel/Projects/desafio_tds/url_shortner/src/main/resources/config.properties");
+        String test = System.getProperty("user.dir");
+        System.out.println(test);
+        //File configFile = new File("./src/main/resources/counter.properties");
+        File configFile = new File("/home/daniel/Projects/desafio_tds/url_shortner/src/main/resources/counter.properties");
 		FileReader reader = new FileReader(configFile);
 		Properties props = new Properties();
 		props.load(reader);

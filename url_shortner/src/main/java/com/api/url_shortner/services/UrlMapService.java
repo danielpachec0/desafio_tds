@@ -22,19 +22,17 @@ public class UrlMapService {
     @Autowired
     private final UrlMapRepository urlRepository;
 
-
-    //to update
     private String generateShortUrl() throws Exception {
-        File configFile = new File("./src/main/resources/config.properties");
-		
+        //File configFile = new File("url_shortner/src/main/resources/counter.properties");
+        File configFile = new File("/home/daniel/Projects/desafio_tds/url_shortner/src/main/resources/counter.properties");
+       
         FileReader reader = new FileReader(configFile);
- 
 		Properties props = new Properties();
 		props.load(reader);
 
 		System.out.println(props);
 		reader.close();
-
+   
 
         char[] charArray = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
         String newShortUrl = "";
@@ -73,7 +71,7 @@ public class UrlMapService {
 
     public String createNewUrl(String url) throws Exception{
         String shortUrl = generateShortUrl();
-        UrlMap urlObject = new UrlMap(url, shortUrl, LocalDateTime.now(), null, 0, 1);
+        UrlMap urlObject = new UrlMap(url, shortUrl, LocalDateTime.now(), LocalDateTime.now(), 0, 1);
         return urlRepository.save(urlObject).getShortUrl();
     }
 

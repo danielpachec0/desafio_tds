@@ -57,6 +57,7 @@ public class UrlMapController {
             try{
                 shortUrl = urlService.createNewUrl(url);
             }catch(Exception e){
+                System.out.println(e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("internal error when creating short url, try again later.");
             }
         }else{
