@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class GeneralAnalyticsResponse {
-    private int numberOfUrlMaps;
+    private long numberOfUrlMaps;
     private String mostRequestedUrl;
     private int mostRequestedNumberOfRequests;
     private String mostAccessedUrl;
@@ -18,7 +18,7 @@ public class GeneralAnalyticsResponse {
     private String oldestAccessedUrl;
     private String oldestAccessedUrlDateTime;
     
-    public GeneralAnalyticsResponse(int numberOfUrlMaps, String mostRequestedUrl, int mostRequestedNumberOfRequests,
+    public GeneralAnalyticsResponse(long numberOfUrlMaps, String mostRequestedUrl, int mostRequestedNumberOfRequests,
             String mostAccessedUrl, int mostAccessedNumberOfRequests, String lastUrlCreated,
             String lastUrlCreatedDateTime, String oldestUrlCreated, String oldestUrlCreatedDateTime,
             String lastAccessedUrl, String lastAccessedUrlDateTime, String oldestAccessedUrl,
